@@ -166,8 +166,7 @@ namespace SonSerC
         }
 
         public static void PausePlaySpotify()
-        {
-            Console.WriteLine("b");
+        {            
             ClickDelaySpotify(75, 1000);
         }
 
