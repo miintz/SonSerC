@@ -40,7 +40,7 @@ This will play the album's first track.
 
 - Play track
 
-SonSerC.exe spotify:track:7AUFfOt0Mw0dhfpuyzFlq8
+SonSerC.exe spotify:track:1xjKtzJPJJACzsFnTgh5Al
 
 This will play a specific track.  
  
