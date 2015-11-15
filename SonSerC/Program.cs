@@ -34,6 +34,16 @@ namespace SonSerC
         public const int MOUSEEVENTF_LEFTDOWN = 0x02;
         public const int MOUSEEVENTF_LEFTUP = 0x04;
 
+        public static int RESOLUTIONx = 1366;
+        public static int RESOLUTIONy = 768;
+        public static int OFFSETx = 95; //1366 x 768
+        public static int OFFSETy = 5; //1366 x 768
+
+        //public static int RESOLUTIONx = 1920;
+        //public static int RESOLUTIONy = 1080;
+        //public static int OFFSETx = 0; //1920 x 1080
+        //public static int OFFSETy = 0; //1920 x 1080
+
         static string TrackRegex = "spotify:track:([a-zA-Z0-9]{22})";
         static string AlbumRegex = "spotify:album:([a-zA-Z0-9]{22})";
 
@@ -57,7 +67,7 @@ namespace SonSerC
                         System.Threading.Thread.Sleep(1000);
 
                         FocusSpotify();
-                        break;
+                        break;                        
                     default:
                         //mogelijk een trackid/albumid ofzo
 
@@ -72,6 +82,10 @@ namespace SonSerC
                             TypeSpotify(arg);
 
                             SendKeys.SendWait("{ENTER}");
+                            
+                            //SendKeys.SendWait("{PGUP}");
+                            //SendKeys.SendWait("{PGUP}");
+                            //SendKeys.SendWait("{ENTER}");
 
                             ClickClearSearchSpotify();
 
@@ -84,8 +98,13 @@ namespace SonSerC
 
                             SelectSearchbarSpotify();
                             TypeSpotify(arg);
+                            SelectSearchbarSpotify();
 
                             SendKeys.SendWait("{ENTER}");
+
+                            //SendKeys.SendWait("{PGUP}");
+                            //SendKeys.SendWait("{PGUP}");
+                            //SendKeys.SendWait("{ENTER}");
 
                             ClickClearSearchSpotify();
                         }
@@ -134,12 +153,20 @@ namespace SonSerC
 
         private static void ClickSpotify(int xpos, int ypos)
         {
+            int[] o = GetPositionRelativeToResolution(xpos, ypos);
+            xpos = o[0];
+            ypos = o[1];
+
             SetCursorPos(xpos, ypos);
             mouse_event(MOUSEEVENTF_LEFTDOWN, xpos, ypos, 0, 0);
             mouse_event(MOUSEEVENTF_LEFTUP, xpos, ypos, 0, 0);
         }
         private static void ClickDoubleSpotify(int xpos, int ypos)
         {
+            int[] o = GetPositionRelativeToResolution(xpos, ypos);
+            xpos = o[0];
+            ypos = o[1];
+
             SetCursorPos(xpos, ypos);
             mouse_event(MOUSEEVENTF_LEFTDOWN, xpos, ypos, 0, 0);
             mouse_event(MOUSEEVENTF_LEFTUP, xpos, ypos, 0, 0);
@@ -149,6 +176,10 @@ namespace SonSerC
 
         private static void ClickDoubleDelaySpotify(int xpos, int ypos)
         {
+            int[] o = GetPositionRelativeToResolution(xpos, ypos);
+            xpos = o[0];
+            ypos = o[1];
+
             SetCursorPos(xpos, ypos);
             System.Threading.Thread.Sleep(500);
             mouse_event(MOUSEEVENTF_LEFTDOWN, xpos, ypos, 0, 0);
@@ -159,6 +190,11 @@ namespace SonSerC
 
         private static void ClickDelaySpotify(int xpos, int ypos)
         {
+            Console.WriteLine("clicking at (1080p): " + xpos + " " + ypos);
+            int[] o = GetPositionRelativeToResolution(xpos, ypos);
+            xpos = o[0];
+            ypos = o[1];
+            Console.WriteLine("clicking at (resx): " + xpos + " " + ypos);
             SetCursorPos(xpos, ypos);
             System.Threading.Thread.Sleep(500);
             mouse_event(MOUSEEVENTF_LEFTDOWN, xpos, ypos, 0, 0);
@@ -206,6 +242,14 @@ namespace SonSerC
             {                
                 SendKeys.SendWait(key.ToString());
             }
+        }
+
+        public static int[] GetPositionRelativeToResolution(int x, int y)
+        {            
+            float rx = RESOLUTIONx / 1920.0f;
+            float ry = RESOLUTIONy / 1080.0f;
+            Console.WriteLine("res: " + RESOLUTIONx + " " + RESOLUTIONy + " ratio: " + rx.ToString() + " " + ry.ToString());
+            return new int[2] { (int)(rx * (float)x) + OFFSETx, (int)(ry * (float)y) + OFFSETy };
         }
 
         public String SeeifAlbumsInSearchResults()
