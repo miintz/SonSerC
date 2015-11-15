@@ -34,6 +34,7 @@ namespace SonSerC
         public const int MOUSEEVENTF_LEFTDOWN = 0x02;
         public const int MOUSEEVENTF_LEFTUP = 0x04;
 
+        //verander dit als je een andere reso hebt
         public static int RESOLUTIONx = 1366;
         public static int RESOLUTIONy = 768;
         public static int OFFSETx = 95; //1366 x 768
